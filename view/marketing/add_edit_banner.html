@@ -64,46 +64,64 @@
 				<div class="form-horizontal">
 					<div class="form-group">
 						<label class="col-sm-2 control-label text-right">
+							<span style="padding-left: 20px;">营销类型：</span>
+						</label>
+						<div class="col-sm-8">
+							<select class="form-control admin_state" data-live-search="true">
+								<option value="1" selected>banner</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label text-right">
 							<span style="padding-left: 20px;">标题：</span>
 						</label>
-						<div class="col-sm-3">
+						<div class="col-sm-8">
 							<input class="form-control" type="" name="" id="" v-model="videoname" maxlength="50" placeholder="请输入标题" />
 						</div>
-						<label class="col-sm-2 control-label text-right">
-							<span style="padding-left: 20px;">导师名字：</span>
-						</label>
-						<div class="col-sm-3">
-							<input class="form-control" type="" name="" id="" v-model="videoname" maxlength="50" placeholder="请输入导师名字" />
-						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label text-right">
-							<span style="padding-left: 20px;">上课时间：</span>
-						</label>
-						<div class="col-sm-3">
-							<input class="form-control" type="" name="" id="" v-model="videoname" maxlength="50" placeholder="请输入上课时间" />
-						</div>
-						<label class="col-sm-2 control-label text-right">
-							<span style="padding-left: 20px;">导师介绍：</span>
-						</label>
-						<div class="col-sm-3">
-							<input class="form-control" type="" name="" id="" v-model="videoname" maxlength="50" placeholder="请输入导师介绍" />
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 control-label text-right">
-							<span style="padding-left: 20px;">课程介绍：</span>
+							<span style="padding-left: 20px;">链接：</span>
 						</label>
 						<div class="col-sm-8">
-							<textarea class="form-control" type="" name="" id="" v-model="videoname" maxlength="50" placeholder="请输入课程介绍"></textarea>
+							<input class="form-control" type="" name="" id="" v-model="videoname" maxlength="50" placeholder="请输入链接" />
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 control-label text-right">
-							<span class="" style="padding-left: 20px;">课程链接：</span>
+							<span style="padding-left: 20px;">开始时间：</span>
 						</label>
 						<div class="col-sm-8">
-							<input class="form-control" type="text" name="" id="" v-model="videocrowd" maxlength="50" placeholder="请输入课程链接" />
+							<input class="form-control" type="" name="" id="" v-model="videoname" maxlength="50" placeholder="请输入礼品积分" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label text-right">
+							<span style="padding-left: 20px;">结束时间：</span>
+						</label>
+						<div class="col-sm-8">
+							<textarea class="form-control" type="" name="" id="" v-model="videoname" maxlength="50" placeholder="请输入礼品描述"></textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label text-right">
+							<span style="padding-left: 20px;">顺序：</span>
+						</label>
+						<div class="col-sm-8">
+							<select class="form-control admin_state" data-live-search="true">
+								<option value="1">1</option>
+								<option value="1">2</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label text-right">
+							<span class="" style="padding-left: 20px;">状态：</span>
+						</label>
+						<div class="col-sm-8">
+							<input type="radio" name="status" id="on"><label for="on">启用</label>
+							<input type="radio" name="status" id="off"><label for="off">禁用</label>
 						</div>
 					</div>
 				</div>
