@@ -1,0 +1,94 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+  /*background: url(../../images/enter/enter-bg1.jpg) no-repeat center center;*/
+  background: #fff;
+}
+
+header{
+  width: 1024px;
+  height: 70px;
+  line-height: 70px;
+  margin: 20px auto;
+}
+header img{
+  height: 70px;
+  margin-right: 20px;
+  vertical-align: top;
+}
+header h1{
+  display: inline-block;
+  font-size: 25px;
+}
+
+#banner{
+  position: relative;
+}
+
+#banner img{
+  width: 100%;
+}
+
+#banner .main {
+  box-sizing: border-box;
+  width: 600px;
+  height: 500px;
+  background: #fff;
+  position: absolute;
+  right: 80px;
+  top: 50px;
+  padding: 60px 50px;
+}
+
+
+._hint {
+  text-align: left;
+  font-size: 30px;
+  color: #000;
+  margin-bottom: 20px;
+}
+.hint{
+  color: red;
+  text-align: center;
+  height: 20px;
+}
+
+._style {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333333;
+}
+
+/*input[type="text"],
+input[type="password"] {
+  width: 198px;
+  height: 28px;
+  border: 1px solid #5ab4b2;
+}*/
+
+._cont {
+  margin: 35px auto;
+}
+._cont input{
+  width: 90%;
+  height: 50px;
+  line-height: 30px;
+  padding: 0 10px;
+}
+
+
+button {
+  display: inline-block;
+  width: 160px;
+  height: 60px;
+  text-align: center;
+  line-height: 60px;
+  color: #FFFFFF;
+  background: #e24429;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 0;
+  font-size: 18px;
+  margin-top: 10px;
+}

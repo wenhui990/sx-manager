@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="images/logo-32.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="images/logo-32.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录</title>
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/enter/enter.css" />
+    <!--[if lte IE 8]>
+      <link rel="stylesheet" href="assets/ace-ie.min.css" />
+      <script type="text/javascript" src="assets/jquery-1.10.2.js" ></script>
+    <![endif]-->
+
+    <script src="./index_files/ace-extra.min.js"></script>
+    <!--[if lt IE 9]>
+    <script src="assets/html5shiv.js"></script>
+    <script src="assets/respond.min.js"></script>
+    <![endif]-->
+    <!--[if !IE]>
+    <script src="./index_files/jquery-1.9.1.min.js"></script>
+    <!-- <![endif]>
+    <!--[if IE]
+         <script type="text/javascript">window.jQuery || document.write("<script src='assets/jquery-1.10.2.min.js'>"+"<"+"script>");</script>
+        <![endif]-->
+    <script type="text/javascript">
+      if("ontouchend" in document) document.write("<script src='assets/jquery.mobile.custom.min.js'>" + "<" + "script>");
+    </script>
+    <script src="./index_files/jquery-1.9.1.min.js"></script>
+    <script src="./index_files/bootstrap.min.js"></script>
+    <script src="js/dataUrl.js" type="text/javascript" charset="utf-8"></script>
+    <script src="./index_files/typeahead-bs2.min.js"></script>
+    <!--[if lte IE 8]>
+      <script src="assets/excanvas.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <header>
+      <img src="images/newlogo.png" alt="logo" />
+      <h1>快学教育管理平台</h1>
+    </header>
+    <div id="banner">
+      <div>
+        <img src="images/background.png"/>
+      </div>
+      <div class="main">
+        <div class="cont">
+          <div class="_hint">登录</div>
+          <div class="hint"></div>
+          <div class="_cont" style="margin-top: 10px;">
+            <input type="text" class="_text" maxlength="11" id="txt" placeholder="请输入账号" />
+          </div>
+          <div class="_cont">
+            <input type="password" class="_password" maxlength="16" id="pas" placeholder="请输入密码" />
+          </div>
+          <div>
+            <button>登录</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script src="js/md5.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+      $(document).on("keydown", function(event) {
+        if(event.keyCode == 13) {
+          fnEnter()
+        }
+      });
+      $("button").on("click", function() {
+        fnEnter()
+      })
+
+      function fnEnter() {
+        if($("._text").val() == "") {
+          $(".hint").text("请输入账号")
+        } else if($("._password").val() == "") {
+          $(".hint").text("请输入密码")
+        } else {
+          var data = {
+            phone: $("._text").val(),
+            pass: hex_md5($("._password").val())
+          }
+          $.ajax({
+            type: "post",
+            url: org_url + dataUrl.login + '?time=' + new Date().getTime(),
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            async: true,
+            xhrFields: {
+              withCredentials: true
+            },
+            crossDomain: true,
+            success: function(data) {
+              console.log(data);
+              if(data.token) {
+                $(".hint").text('登录成功！');
+                localStorage.id = data.id;
+                localStorage.userid = data.userid;
+                localStorage.token = data.token;
+                sessionStorage.id = data.id;
+                sessionStorage.userid = data.userid;
+                sessionStorage.token = data.token;
+                window.location.href = "index.html";
+              } else {
+                $(".hint").text('用户名或密码错误！');
+              }
+            },
+            error: function() {
+              $(".hint").text('服务器错误，请联系管理员！');
+            }
+          });
+
+        }
+      }
+    </script>
+  </body>
+
+</html>
