@@ -7,101 +7,190 @@
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-    <link rel="stylesheet" type="text/css" href="../../css/common/reset.css" />
-    <link rel="stylesheet" href="../../plugin/bootstrap/bootstrap.min.css" />
-    <link rel="stylesheet" href="../../plugin/paging/paging.css" />
-    <link rel="stylesheet" href="../../plugin/bootstrap-select/css/bootstrap-select.css" />
-    <link rel="stylesheet" href="../../css/common/common_list.css" />
-    <link rel="stylesheet" href="../../css/common/common.css" />
-    <link rel="stylesheet" href="../../css/knowledge/knowledge_list.css" />
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link rel="stylesheet" type="text/css" href="../../css/common/reset.css"/>
+    <link rel="stylesheet" href="../../plugin/bootstrap/bootstrap.min.css"/>
+    <link rel="stylesheet" href="../../plugin/paging/paging.css"/>
+    <link rel="stylesheet" href="../../plugin/bootstrap-select/css/bootstrap-select.css"/>
+    <link rel="stylesheet" href="../../css/common/common_list.css"/>
+    <link rel="stylesheet" href="../../css/common/common.css"/>
+    <link rel="stylesheet" href="../../css/knowledge/knowledge_list.css"/>
+    <link rel="stylesheet" href="../../plugin/layui/css/layui.css">
 </head>
 
 <body>
-<div class="main container-fluid">
-    <div class="row head" style="padding: 6px 0;">
-        <h3 class="col-xs-2">查询区</h3>
-        <div class="col-sm-9 col-xs-3"></div>
-    </div>
-    <div class="row state">
-        <form class="form-horizontal" role="form">
-            <div class="form-group">
-                <label for="name" class="col-sm-1 control-label text-left">礼品名称</label>
-                <div class="col-sm-3">
-                    <input type="text" id="name" name="" maxlength="20" class="form-control admin_name"/>
+<div class="main container-fluid" id="main">
+    <div class="layui-tab layui-tab-brief" lay-filter="test">
+        <ul class="layui-tab-title" style="margin-bottom: 15px">
+            <li class="layui-this">视频</li>
+            <li>资料</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div class="row head" style="padding: 6px 0;">
+                    <h3 class="col-xs-2">查询区</h3>
+                    <div class="col-sm-9 col-xs-3"></div>
                 </div>
-                <label for="jifen" class="col-sm-1 control-label text-left">礼品积分</label>
-                <div class="col-sm-3">
-                    <input type="text" id="jifen" name="" maxlength="20" class="form-control admin_name"/>
+                <div class="row state">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label for="name" class="col-sm-1 control-label text-left">视频标题</label>
+                            <div class="col-sm-4">
+                                <input type="text" id="name" name="" maxlength="20" class="form-control admin_name"/>
+                            </div>
+                            <div id="btnSearch" onclick="search()" class="search_01 col-sm-2 col-sm-offset-1">查询</div>
+                        </div>
+                    </form>
                 </div>
-                <div id="btnSearch" onclick="search()" class="search_01 col-sm-2 col-sm-offset-1">查询</div>
-            </div>
-        </form>
-    </div>
-    <div class="row head numshu_btm">
-        <div class="btngroup">
-            <input class="commonbtn addAdmin" @click="addSub(0)" type="button" value="新增礼品"/>
-        </div>
-    </div>
-    <div class="numshu_btm" style="margin-top: 0;">
-        <div class="list_btm">
-            <div class="table-responsive">
-                <table class="table table-hover addlist" style="text-align: center;">
-                    <thead>
-                    <tr>
-                        <th><strong>礼品名称</strong></th>
-                        <th><strong>兑换积分</strong></th>
-                        <th><strong>礼品价格</strong></th>
-                        <th><strong>礼品图片</strong></th>
-                        <th><strong>礼品描述</strong></th>
-                        <th><strong>兑换说明</strong></th>
-                        <th><strong>操作</strong></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="(student,index) in studentLists" :class="{warning:iswarning}">
-                        <td>{{(index + 1)}}</td>
-                        <td>{{student.sname}}</td>
-                        <td>{{student.gradename}}</td>
-                        <td>{{student.cname}}</td>
-                        <td>{{student.name}}</td>
-                        <td>{{student.name}}</td>
-                        <td>
-                            <a href="javascript:;" @click="seeStudent('see',student.id)">编辑</a>
-                            <a href="javascript:;" @click="seeStudent('see',student.id)">删除</a>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="row pro_list_btm">
-                <div class="col-xs-6 col-sm-3 text-center">
+                <div class="row head numshu_btm">
+                    <div class="btngroup">
+                        <input class="commonbtn addAdmin" @click="addSub(0)" type="button" value="新增"/>
+                    </div>
+                </div>
+                <div class="numshu_btm" style="margin-top: 0;">
+                    <div class="list_btm">
+                        <div class="table-responsive">
+                            <table class="table table-hover addlist" style="text-align: center;">
+                                <thead>
+                                <tr>
+                                    <th><strong>文章标题</strong></th>
+                                    <th><strong>简介</strong></th>
+                                    <th><strong>导师名称</strong></th>
+                                    <th><strong>导师介绍</strong></th>
+                                    <th><strong>上课时间</strong></th>
+                                    <th><strong>操作</strong></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="(student,index) in studentLists" :class="{warning:iswarning}">
+                                    <td>{{(index + 1)}}</td>
+                                    <td>{{student.sname}}</td>
+                                    <td>{{student.gradename}}</td>
+                                    <td>{{student.cname}}</td>
+                                    <td>{{student.name}}</td>
+                                    <td>
+                                        <a href="javascript:;" @click="seeStudent('see',student.id)">编辑</a>
+                                        <a href="javascript:;" @click="seeStudent('see',student.id)">删除</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row pro_list_btm">
+                            <div class="col-xs-6 col-sm-3 text-center">
 
+                            </div>
+                            <div class="col-xs-7 col-sm-9">
+                                <div id="pageToolbar" style="float: right;margin-right: 20px;"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-xs-7 col-sm-9">
-                    <div id="pageToolbar" style="float: right;margin-right: 20px;"></div>
+            </div>
+            <div class="layui-tab-item">
+                <div class="row head" style="padding: 6px 0;">
+                    <h3 class="col-xs-2">查询区</h3>
+                    <div class="col-sm-9 col-xs-3"></div>
+                </div>
+                <div class="row state">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label for="name2" class="col-sm-1 control-label text-left">资料标题</label>
+                            <div class="col-sm-4">
+                                <input type="text" id="name2" name="" maxlength="20" class="form-control admin_name"/>
+                            </div>
+                            <div id="btnSearch2" onclick="search()" class="search_01 col-sm-2 col-sm-offset-1">查询</div>
+                        </div>
+                    </form>
+                </div>
+                <div class="row head numshu_btm">
+                    <div class="btngroup">
+                        <input class="commonbtn addAdmin" @click="addSub(1)" type="button" value="新增"/>
+                    </div>
+                </div>
+                <div class="numshu_btm" style="margin-top: 0;">
+                    <div class="list_btm">
+                        <div class="table-responsive">
+                            <table class="table table-hover addlist" style="text-align: center;">
+                                <thead>
+                                <tr>
+                                    <th><strong>文章标题</strong></th>
+                                    <th><strong>简介</strong></th>
+                                    <th><strong>导师名称</strong></th>
+                                    <th><strong>导师介绍</strong></th>
+                                    <th><strong>上课时间</strong></th>
+                                    <th><strong>操作</strong></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr v-for="(student,index) in studentLists" :class="{warning:iswarning}">
+                                    <td>{{(index + 1)}}</td>
+                                    <td>{{student.sname}}</td>
+                                    <td>{{student.gradename}}</td>
+                                    <td>{{student.cname}}</td>
+                                    <td>{{student.name}}</td>
+                                    <td>
+                                        <a href="javascript:;" @click="seeStudent('see',student.id)">编辑</a>
+                                        <a href="javascript:;" @click="seeStudent('see',student.id)">删除</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row pro_list_btm">
+                            <div class="col-xs-6 col-sm-3 text-center">
+
+                            </div>
+                            <div class="col-xs-7 col-sm-9">
+                                <div id="pageToolbar1" style="float: right;margin-right: 20px;"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+
 </div>
 
 </body>
-<script type="text/javascript" src="../../js/doT.min.js"></script>
 <script type="text/javascript" src="../../js/common/jquery.min2.0.js"></script>
 <script type="text/javascript" src="../../plugin/paging/query.js"></script>
 <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
 <script type="text/javascript" src="../../plugin/bootstrap-select/js/bootstrap-select.min.js"></script>
 <script type="text/javascript" src="../../plugin/paging/paging.js"></script>
 <script type="text/javascript" src="../../plugin/layer/layer.js"></script>
+<script type="text/javascript" src="../../plugin/layui/layui.all.js"></script>
 <script src="../../js/dataUrl.js" type="text/javascript" charset="utf-8"></script>
-
-<!--<script type="text/javascript" src="../../js/knowledge/knowledge_list.js" ></script>-->
+<script src="../../plugin/vue/vue.js"></script>
 <script>
+	layui.use('element', function () {
+		var element = layui.element;
+		var tabindex = 0;
+		element.on('tab(test)', function (data) {
+			tabindex = data.index;
+			console.log(tabindex);
+		});
+	});
 	var evalText;
-	$(function() {
-		evalText = doT.template($("#manager_list_tmpl").text());
+	$(function () {
 		search();
+	})
+
+	var vvm = new Vue({
+		el: '#main',
+		data: {},
+		methods: {
+			addSub: function (num) {
+				if (num === 0) {
+					window.location.href = 'add_edit_sharing.html';
+				} else if (num === 1) {
+					window.location.href = 'add_edit_sharing.html';
+				}
+			}
+		}
 	})
 
 	//搜索分页
@@ -141,11 +230,11 @@
 			count: 20,
 			toolbar: true,
 			hash: true,
-			callback: function(page, size, count) {
+			callback: function (page, size, count) {
 				//console.log(page+'***'+size+'------'+count)
 				$.ajax({
 					type: "get",
-					url: org_url + dataUrl.managers + "?token=" + localStorage.token+"&time="+new Date().getTime(),
+					url: org_url + dataUrl.managers + "?token=" + localStorage.token + "&time=" + new Date().getTime(),
 					data: {
 						page: page,
 						size: size,
@@ -159,13 +248,13 @@
 					},
 					dataType: "json",
 					crossDomain: true,
-					success: function(data) {
-						if(data.code == '10010') {
+					success: function (data) {
+						if (data.code == '10010') {
 							layer.alert('身份验证失败！请重新登录！', {
-								yes: function() {
+								yes: function () {
 									parent.location.href = "../../enter.html";
 								},
-								cancel: function() {
+								cancel: function () {
 									parent.location.href = "../../enter.html";
 								}
 							});
@@ -175,10 +264,10 @@
 					}
 				});
 			},
-			changePagesize: function(ps) {
+			changePagesize: function (ps) {
 				$.ajax({
 					type: "get",
-					url: org_url + dataUrl.managers + "?token=" + localStorage.token+"&time="+new Date().getTime(),
+					url: org_url + dataUrl.managers + "?token=" + localStorage.token + "&time=" + new Date().getTime(),
 					data: {
 						page: 1,
 						size: ps,
@@ -186,13 +275,13 @@
 						name: $("#name").val().trim(),
 						valid: $("#valid").val(),
 					},
-					success: function(data) {
-						if(data.code == '10010') {
+					success: function (data) {
+						if (data.code == '10010') {
 							layer.alert('身份验证失败！请重新登录！', {
-								yes: function() {
+								yes: function () {
 									parent.location.href = "../../enter.html";
 								},
-								cancel: function() {
+								cancel: function () {
 									parent.location.href = "../../enter.html";
 								}
 							});
@@ -207,65 +296,16 @@
 		// });
 	}
 
-	//点击新建管理员
-	$('.addAdmin').click(function() {
-		//			$('.breadcrumb',window.parent.document).append('<li class="active add_teacher_bar"><span class="Current_page iframeurl" name="view/userManage/admin_add.html" style="color: rgb(51, 51, 51); cursor: default;">新建用户</span></li>');
-		window.location.href = 'add_edit_shop.html';
-	});
 
 	//点击查看
 	function seeAdmin(id, see) {
-		window.location.href = 'add_edit_shop.html?id=' + id + '&see=' + see;
+		window.location.href = 'admin_add.html?id=' + id + '&see=' + see;
 	}
 
 	//点击编辑
 	function editAdmin(id) {
 		//			$('.breadcrumb',window.parent.document).append('<li class="active add_teacher_bar"><span class="Current_page iframeurl" name="view/userManage/admin_edit.html" style="color: rgb(51, 51, 51); cursor: default;">编辑教师</span></li>');
 		window.location.href = 'admin_edit.html?id=' + id;
-	}
-
-	//点击禁用用户
-	function off(id) {
-		var v = ($("#valid" + id).val() == '0' ? '1' : '0');
-		$.ajax({
-			type: "put",
-			url: org_url + dataUrl.managersstaus + id + "?token=" + localStorage.token+"&time="+new Date().getTime(),
-			async: true,
-			dataType: "json",
-			xhrFields: {
-				withCredentials: true
-			},
-			data: {
-				valid: v,
-			},
-			crossDomain: true,
-			success: function(data) {
-				if(data.code == '10010') {
-					layer.alert('身份验证失败！请重新登录！', {
-						yes: function() {
-							parent.location.href = "../../enter.html";
-						},
-						cancel: function() {
-							parent.location.href = "../../enter.html";
-						}
-					});
-					return false;
-				}
-				//alert(v);
-				if(data == 1) {
-					layer.alert(v == "0" ? "已禁用" : "已启用");
-					$("#valid" + id).val(v);
-					$("#validText" + id).html(v == "0" ? "已禁用" : "已启用");
-					$("#validHref" + id).html(v == "0" ? "启用" : "禁用");
-				} else {
-					layer.alert("修改失败！");
-				}
-
-				//window.location.href='user.html';
-				//$('.add_teacher_bar',window.parent.document).remove();
-			}
-		});
-
 	}
 
 	//点击删除用户
@@ -276,7 +316,7 @@
 			skin: 'layui-layer-lana',
 			shadeClose: 'true',
 			btn: ['确定', "取消"],
-			yes: function(index, layero) {
+			yes: function (index, layero) {
 				$.ajax({
 					type: "delete",
 					url: org_url + dataUrl.manager + id + '?token=' + localStorage.token,
@@ -286,20 +326,20 @@
 						withCredentials: true
 					},
 					crossDomain: true,
-					success: function(data) {
-						if(data.code == '10010') {
+					success: function (data) {
+						if (data.code == '10010') {
 							layer.alert('身份验证失败！请重新登录！', {
-								yes: function() {
+								yes: function () {
 									parent.location.href = "../../enter.html";
 								},
-								cancel: function() {
+								cancel: function () {
 									parent.location.href = "../../enter.html";
 								}
 							});
 							return false;
 						}
-						if(data == 1) {
-							layer.alert('删除成功！', function(index) {
+						if (data == 1) {
+							layer.alert('删除成功！', function (index) {
 								layer.close(index);
 								$("#manager" + id).remove();
 								search();
@@ -311,7 +351,7 @@
 				});
 				layer.close(index);
 			},
-			btn2: function(index, layero) {
+			btn2: function (index, layero) {
 				//按钮【按钮二】的回调
 				layer.close(index);
 			}

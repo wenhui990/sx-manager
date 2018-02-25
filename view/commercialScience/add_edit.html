@@ -12,30 +12,30 @@
 		<link rel="stylesheet" href="../../css/common/common_list.css" />
 		<link rel="stylesheet" href="../../css/common/common.css" />
 		<link rel="stylesheet" href="../../css/knowledge/knowledge_list.css" />
-		<link rel="stylesheet" type="text/css" href="../../css/zTreeStyle/zTreeStyle.css" />
+		<link rel="stylesheet" type="text/css" href="../../plugin/layui/css/layui.css"/>
 
 		<style type="text/css">
 			body {
 				padding: 20px;
 			}
-			
+
 			.none {
 				display: none;
 			}
-			
+
 			[v-cloak] {
 				display: none;
 			}
-			
+
 			.list_btm {
 				padding-top: 20px;
 			}
-			
+
 			.addknowledge {
 				color: #000;
 				text-decoration: underline;
 			}
-			
+
 			.ztree1 {
 				margin-top: 0;
 				width: 180px;
@@ -58,8 +58,8 @@
 	</head>
 
 	<body>
-		<div class="main container-fluid" style="overflow:inherit;padding: 0;border: 0;" id="videoMain">
-			
+		<div class="main container-fluid" style="overflow:inherit;padding: 0;border: 0;" id="main">
+
 			<div class="list_btm">
 				<div class="form-horizontal">
 					<div class="form-group">
@@ -67,13 +67,13 @@
 							<span style="padding-left: 20px;">标题：</span>
 						</label>
 						<div class="col-sm-3">
-							<input class="form-control" type="" name="" id="" v-model="videoname" maxlength="50" placeholder="请输入标题" />
+							<input class="form-control" type="" name="" id="" v-model="title" maxlength="50" placeholder="请输入标题" />
 						</div>
 						<label class="col-sm-2 control-label text-right">
 							<span style="padding-left: 20px;">导师名字：</span>
 						</label>
 						<div class="col-sm-3">
-							<input class="form-control" type="" name="" id="" v-model="videoname" maxlength="50" placeholder="请输入导师名字" />
+							<input class="form-control" type="" name="" id="" v-model="tname" maxlength="50" placeholder="请输入导师名字" />
 						</div>
 					</div>
 					<div class="form-group">
@@ -81,13 +81,13 @@
 							<span style="padding-left: 20px;">上课时间：</span>
 						</label>
 						<div class="col-sm-3">
-							<input class="form-control" type="" name="" id="" v-model="videoname" maxlength="50" placeholder="请输入上课时间" />
+							<input class="form-control" type="" name="" id="starttime" v-model="starttime" maxlength="50" placeholder="请输入上课时间" />
 						</div>
 						<label class="col-sm-2 control-label text-right">
 							<span style="padding-left: 20px;">导师介绍：</span>
 						</label>
 						<div class="col-sm-3">
-							<input class="form-control" type="" name="" id="" v-model="videoname" maxlength="50" placeholder="请输入导师介绍" />
+							<input class="form-control" type="" name="" id="" v-model="tdesc" maxlength="50" placeholder="请输入导师介绍" />
 						</div>
 					</div>
 					<div class="form-group">
@@ -95,7 +95,7 @@
 							<span style="padding-left: 20px;">课程介绍：</span>
 						</label>
 						<div class="col-sm-8">
-							<textarea class="form-control" type="" name="" id="" v-model="videoname" maxlength="50" placeholder="请输入课程介绍"></textarea>
+							<textarea class="form-control" type="" name="" id="" v-model="cdesc" maxlength="50" placeholder="请输入课程介绍"></textarea>
 						</div>
 					</div>
 					<div class="form-group">
@@ -103,9 +103,18 @@
 							<span class="" style="padding-left: 20px;">课程链接：</span>
 						</label>
 						<div class="col-sm-8">
-							<input class="form-control" type="text" name="" id="" v-model="videocrowd" maxlength="50" placeholder="请输入课程链接" />
+							<input class="form-control" v-model="chref" maxlength="50" placeholder="请输入课程链接" />
 						</div>
 					</div>
+					<div class="form-group">
+		                <label for="valid" class="col-sm-2 control-label text-center">类别</label>
+		                <div class="col-sm-2">
+		                    <select name="" id="valid" v-model="classify" class="form-control admin_state" data-live-search="true">
+		                        <option value='1'>正式报名</option>
+		                        <option value='2'>预约报名</option>
+		                    </select>
+		                </div>
+		            </div>
 				</div>
 				<div class="form-horizontal">
 					<div class="form-group">
@@ -113,10 +122,10 @@
 							<span class="" style="padding-left: 20px;">图片：</span>
 						</label>
 						<div class="col-sm-8">
-							<input type="file" name="" id="videoimg" value="" @change="videoImgFile($event)" style="display: none;" />
-							<button class="btn btn-sm btn-default videoimg">浏览</button>
+							<input type="file" name="" id="fileimg" value="" @change="ImgFile($event)" style="display: none;" />
+							<button class="btn btn-sm btn-default videoimg" @click="uFile">浏览</button>
 							<div style="margin-top: 10px;width: 268px;height: 188px;border: 1px solid #eee;position: relative;">
-								<img :src="videoimgsrc" width="268" height="188" alt="图片预览区域" />
+								<img :src="imgsrc" width="268" height="188" alt="图片预览区域" />
 								<div class="progress progress-img none" style="margin-top: 5px;position: absolute;left: 0;bottom: 0;width: 100%;">
 									<div id="progress-bar-img" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;">0%
 									</div>
@@ -139,16 +148,132 @@
 	<script type="text/javascript" src="../../plugin/paging/query.js"></script>
 	<script type="text/javascript" src="../../js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="../../plugin/bootstrap-select/js/bootstrap-select.min.js"></script>
-	<script type="text/javascript" src="../../plugin/paging/paging.js"></script>
-	<script type="text/javascript" src="../../plugin/layer/layer.js"></script>
-	<script type="text/javascript" src="../../js/jquery.ztree.core.js"></script>
-	<script type="text/javascript" src="../../js/jquery.ztree.excheck.js"></script>
-	<script type="text/javascript" src="../../js/jquery.ztree.exedit.js"></script>
+	<script src="../../plugin/layui/layui.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../../js/vue/vue.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../../js/dataUrl.js" type="text/javascript" charset="utf-8"></script>
-	<script src="https://www.promisejs.org/polyfills/promise-6.1.0.js"></script>
-	<script src="http://gosspublic.alicdn.com/aliyun-oss-sdk-4.4.4.min.js"></script>
-	<script src="../../js/md5.js" type="text/javascript" charset="utf-8"></script>
-	<!--<script src="../../js/onlinevideo/editvideo.js" type="text/javascript" charset="utf-8"></script>-->
+
+	<script type="text/javascript">
+		var vvm = null,
+			edit = urlParse().edit;
+		layui.use('laydate', function(){
+		  var laydate = layui.laydate;
+		  laydate.render({
+		    elem: '#starttime' //指定元素
+		  });
+		});
+		layui.use('layer', function(){
+		  var layer = layui.layer;
+		}); 
+		$(function() {
+			vvm = new Vue({
+				el: '#main',
+				data: {
+					title: '',
+					tname: '',
+					starttime: '',
+					tdesc: '',
+					cdesc: '',
+					chref: '',
+					classify: urlParse().index,
+					imgsrc: '',
+					upimgsrc: ''
+				},
+				created: function() {
+					var _this = this;
+					if (edit) {
+						$.ajax({
+							type:"get",
+							url: org_url + dataUrl.course + "?time=" + new Date().getTime() + '&title=' + urlParse().id + '&token=' + token,
+							success: function(data) {
+								_this.dialogInfo(data);
+								var list = data.info.data.list[0];
+								_this.title = list.title;
+								_this.tname = list.teacherName;
+								_this.starttime = list.startTime;
+								_this.tdesc = list.teacherRemark;
+								_this.cdesc = list.courseRemark;
+								_this.imgsrc = list.thumbnailUrl;
+								_this.chref = list.courseUrl;
+							}
+						});
+					}
+				},
+				methods: {
+					save: function() {
+						var _this = this;
+						var udata = {
+							token: token,
+							title: this.title,
+							teacherName: this.tname,
+							startTime: $('#starttime').val() || '',
+							teacherRemark: this.tdesc,
+							courseRemark: this.cdesc,
+							courseUrl: this.chref,
+							thumbnailUrl: this.upimgsrc
+						}
+						if (edit) {
+							udata.id = urlParse().id;
+						}
+						console.log(udata)
+//						return
+						$.ajax({
+							type:"post",
+							url: org_url + dataUrl.course,
+							data: udata,
+							success: function(data) {
+								console.log(data)
+								layer.alert(data.info.msg,function() {
+									window.location.href = 'commercialScience.html'
+								})
+							}
+						});
+					},
+					back: function() {
+						window.location.href = 'commercialScience.html';
+					},
+					ImgFile: function(e) {
+						var _this = this;
+						var formData = new FormData();
+						formData.append('file', $(e.target)[0].files[0]);
+						$.ajax({
+							url: org_url + dataUrl.uploadImg + '?token=' + token,
+							type: 'POST',
+							cache: false,
+							data: formData,
+							processData: false,
+							contentType: false,
+							success: function(data) {
+								console.log(data);
+								_this.dialogInfo(data);
+								_this.imgsrc = data.info.data.url;
+								_this.upimgsrc = data.info.data.relativeUrl;
+							},
+							error: function(data) {
+								console.log(data);
+							}
+						});
+					},
+					uFile: function() {
+						$('#fileimg').click()
+					},
+					dialogInfo: function(data) {
+						if(data.info.state === 0) {
+							this.datalists = data.info.data.list;
+						} else if(data.info.state === -1) {
+							layer.alert(data.info.msg, {
+								yes: function() {
+									parent.location.href = "../../newenter.html";
+								},
+								cancel: function() {
+									parent.location.href = "../../newenter.html";
+								}
+							});
+							return false;
+						}
+					}
+				}
+			})
+		})
+	</script>
 
 </html>

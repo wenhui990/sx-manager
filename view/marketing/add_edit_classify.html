@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/common/reset.css" />
+		<link rel="stylesheet" href="../../plugin/bootstrap/bootstrap.min.css" />
+		<link rel="stylesheet" href="../../plugin/paging/paging.css" />
+		<link rel="stylesheet" href="../../plugin/bootstrap-select/css/bootstrap-select.css" />
+		<link rel="stylesheet" href="../../css/common/common_list.css" />
+		<link rel="stylesheet" href="../../css/common/common.css" />
+		<link rel="stylesheet" href="../../css/knowledge/knowledge_list.css" />
+		<link rel="stylesheet" type="text/css" href="../../css/zTreeStyle/zTreeStyle.css" />
+
+		<style type="text/css">
+			body {
+				padding: 20px;
+			}
+			
+			.none {
+				display: none;
+			}
+			
+			[v-cloak] {
+				display: none;
+			}
+			
+			.list_btm {
+				padding-top: 20px;
+			}
+			
+			.addknowledge {
+				color: #000;
+				text-decoration: underline;
+			}
+			
+			.ztree1 {
+				margin-top: 0;
+				width: 180px;
+				height: 300px;
+				border: 1px solid #617775;
+				background: #f0f6e4;
+				width: 220px;
+				height: 360px;
+				overflow-y: scroll;
+				overflow-x: auto;
+				"
+
+			}
+			blockquote{border: 0;}
+			.list_btm{border: 0;}
+			.btngroup{
+				text-align: center;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="main container-fluid" style="overflow:inherit;padding: 0;border: 0;" id="videoMain">
+			
+			<div class="list_btm">
+				<div class="form-horizontal">
+					<div class="form-group">
+						<label class="col-sm-2 control-label text-right">
+							<span style="padding-left: 20px;">类型名：</span>
+						</label>
+						<div class="col-sm-8">
+							<input class="form-control" type="" name="" id="" v-model="videoname" maxlength="50" placeholder="请输入类型名" />
+						</div>
+					</div>
+				</div>
+				<div class="btngroup">
+					<button class="commonbtn save" type="button" @click="save($event)">保存</button>
+					<button class="commonbtn back" @click="back($event)" type="button">返回</button>
+				</div>
+			</div>
+		</div>
+		<div id="menuContent" class="menuContent" style="display:none; position: absolute;">
+			<ul id="treeDemo1" class="ztree ztree1"></ul>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../js/common/jquery.min2.0.js"></script>
+	<script type="text/javascript" src="../../plugin/paging/query.js"></script>
+	<script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../plugin/bootstrap-select/js/bootstrap-select.min.js"></script>
+	<script type="text/javascript" src="../../plugin/paging/paging.js"></script>
+	<script type="text/javascript" src="../../plugin/layer/layer.js"></script>
+	<script type="text/javascript" src="../../js/jquery.ztree.core.js"></script>
+	<script type="text/javascript" src="../../js/jquery.ztree.excheck.js"></script>
+	<script type="text/javascript" src="../../js/jquery.ztree.exedit.js"></script>
+	<script src="../../js/vue/vue.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/dataUrl.js" type="text/javascript" charset="utf-8"></script>
+	<script src="https://www.promisejs.org/polyfills/promise-6.1.0.js"></script>
+	<script src="http://gosspublic.alicdn.com/aliyun-oss-sdk-4.4.4.min.js"></script>
+	<script src="../../js/md5.js" type="text/javascript" charset="utf-8"></script>
+	<!--<script src="../../js/onlinevideo/editvideo.js" type="text/javascript" charset="utf-8"></script>-->
+
+</html>

@@ -1,362 +1,327 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset="UTF-8">
-    <title>管理员用户管理</title>
-    <meta http-equiv="pragma" content="no-cache">
-    <meta http-equiv="cache-control" content="no-cache">
-    <meta http-equiv="expires" content="0">
-    <meta name="viewport"
-          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
-    <link rel="stylesheet" type="text/css" href="../../css/common/reset.css"/>
-    <link rel="stylesheet" href="../../plugin/bootstrap/bootstrap.min.css"/>
-    <link rel="stylesheet" href="../../plugin/paging/paging.css"/>
-    <link rel="stylesheet" href="../../plugin/bootstrap-select/css/bootstrap-select.css"/>
-    <link rel="stylesheet" href="../../css/common/common_list.css"/>
-    <link rel="stylesheet" href="../../css/common/common.css"/>
-    <link rel="stylesheet" href="../../css/knowledge/knowledge_list.css"/>
-    <link rel="stylesheet" href="../../plugin/layui/css/layui.css">
-</head>
-
-<body>
-<div class="main container-fluid" id="main">
-    <div class="layui-tab layui-tab-brief" lay-filter="test">
-        <ul class="layui-tab-title" style="margin-bottom: 15px">
-            <li class="layui-this">正式报名</li>
-            <li>预约报名</li>
-        </ul>
-        <div class="layui-tab-content">
-            <div class="layui-tab-item layui-show">
-                <div class="row head" style="padding: 6px 0;">
-                    <h3 class="col-xs-2">查询区</h3>
-                    <div class="col-sm-9 col-xs-3"></div>
-                </div>
-                <div class="row state">
-                    <form class="form-horizontal" role="form">
-                        <div class="form-group">
-                            <label for="name" class="col-sm-1 control-label text-left">文章标题</label>
-                            <div class="col-sm-4">
-                                <input type="text" id="name" name="" maxlength="20" class="form-control admin_name"/>
-                            </div>
-                            <div id="btnSearch" onclick="search()" class="search_01 col-sm-2 col-sm-offset-1">查询</div>
-                        </div>
-                    </form>
-                </div>
-                <div class="row head numshu_btm">
-                    <div class="btngroup">
-                        <input class="commonbtn addAdmin" @click="addSub(0)" type="button" value="新建课程"/>
-                    </div>
-                </div>
-                <div class="numshu_btm" style="margin-top: 0;">
-                    <div class="list_btm">
-                        <div class="table-responsive">
-                            <table class="table table-hover addlist" style="text-align: center;">
-                                <thead>
-                                <tr>
-                                    <th><strong>文章标题</strong></th>
-                                    <th><strong>简介</strong></th>
-                                    <th><strong>导师名称</strong></th>
-                                    <th><strong>导师介绍</strong></th>
-                                    <th><strong>上课时间</strong></th>
-                                    <th><strong>操作</strong></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr v-for="(student,index) in studentLists" :class="{warning:iswarning}">
-                                    <td>{{(index + 1)}}</td>
-                                    <td>{{student.sname}}</td>
-                                    <td>{{student.gradename}}</td>
-                                    <td>{{student.cname}}</td>
-                                    <td>{{student.name}}</td>
-                                    <td>
-                                        <a href="javascript:;" @click="seeStudent('see',student.id)">编辑</a>
-                                        <a href="javascript:;" @click="seeStudent('see',student.id)">删除</a>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="row pro_list_btm">
-                            <div class="col-xs-6 col-sm-3 text-center">
-
-                            </div>
-                            <div class="col-xs-7 col-sm-9">
-                                <div id="pageToolbar" style="float: right;margin-right: 20px;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="layui-tab-item">
-                <div class="row head" style="padding: 6px 0;">
-                    <h3 class="col-xs-2">查询区</h3>
-                    <div class="col-sm-9 col-xs-3"></div>
-                </div>
-                <div class="row state">
-                    <form class="form-horizontal" role="form">
-                        <div class="form-group">
-                            <label for="name2" class="col-sm-1 control-label text-left">文章标题</label>
-                            <div class="col-sm-4">
-                                <input type="text" id="name2" name="" maxlength="20" class="form-control admin_name"/>
-                            </div>
-                            <div id="btnSearch2" onclick="search()" class="search_01 col-sm-2 col-sm-offset-1">查询</div>
-                        </div>
-                    </form>
-                </div>
-                <div class="row head numshu_btm">
-                    <div class="btngroup">
-                        <input class="commonbtn addAdmin" @click="addSub(1)" type="button" value="新建课程"/>
-                    </div>
-                </div>
-                <div class="numshu_btm" style="margin-top: 0;">
-                    <div class="list_btm">
-                        <div class="table-responsive">
-                            <table class="table table-hover addlist" style="text-align: center;">
-                                <thead>
-                                <tr>
-                                    <th><strong>文章标题</strong></th>
-                                    <th><strong>简介</strong></th>
-                                    <th><strong>导师名称</strong></th>
-                                    <th><strong>导师介绍</strong></th>
-                                    <th><strong>上课时间</strong></th>
-                                    <th><strong>操作</strong></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr v-for="(student,index) in studentLists" :class="{warning:iswarning}">
-                                    <td>{{(index + 1)}}</td>
-                                    <td>{{student.sname}}</td>
-                                    <td>{{student.gradename}}</td>
-                                    <td>{{student.cname}}</td>
-                                    <td>{{student.name}}</td>
-                                    <td>
-                                        <a href="javascript:;" @click="seeStudent('see',student.id)">编辑</a>
-                                        <a href="javascript:;" @click="seeStudent('see',student.id)">删除</a>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="row pro_list_btm">
-                            <div class="col-xs-6 col-sm-3 text-center">
-
-                            </div>
-                            <div class="col-xs-7 col-sm-9">
-                                <div id="pageToolbar1" style="float: right;margin-right: 20px;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-</div>
-
-</body>
-<script type="text/javascript" src="../../js/common/jquery.min2.0.js"></script>
-<script type="text/javascript" src="../../plugin/paging/query.js"></script>
-<script type="text/javascript" src="../../js/bootstrap.min.js"></script>
-<script type="text/javascript" src="../../plugin/bootstrap-select/js/bootstrap-select.min.js"></script>
-<script type="text/javascript" src="../../plugin/paging/paging.js"></script>
-<script type="text/javascript" src="../../plugin/layer/layer.js"></script>
-<script type="text/javascript" src="../../plugin/layui/layui.all.js"></script>
-<script src="../../js/dataUrl.js" type="text/javascript" charset="utf-8"></script>
-<script src="../../plugin/vue/vue.js"></script>
-<script>
-	layui.use('element', function () {
-		var element = layui.element;
-		var tabindex = 0;
-		element.on('tab(test)', function (data) {
-			tabindex = data.index;
-			console.log(tabindex);
-		});
-	});
-	var evalText;
-	$(function () {
-		search();
-	})
-
-	var vvm = new Vue({
-		el: '#main',
-		data: {},
-		methods: {
-			addSub: function (num) {
-				if (num === 0) {
-					window.location.href = 'add_edit.html?index=0';
-				} else if (num === 1) {
-					window.location.href = 'add_edit.html?index=1';
-				}
+	<head>
+		<meta charset="UTF-8">
+		<title>商学管理</title>
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="cache-control" content="no-cache">
+		<meta http-equiv="expires" content="0">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/common/reset.css" />
+		<link rel="stylesheet" href="../../plugin/bootstrap/bootstrap.min.css" />
+		<link rel="stylesheet" href="../../plugin/paging/paging.css" />
+		<link rel="stylesheet" href="../../plugin/bootstrap-select/css/bootstrap-select.css" />
+		<link rel="stylesheet" href="../../css/common/common_list.css" />
+		<link rel="stylesheet" href="../../css/common/common.css" />
+		<link rel="stylesheet" href="../../css/knowledge/knowledge_list.css" />
+		<link rel="stylesheet" href="../../plugin/layui/css/layui.css">
+		<style type="text/css">
+			td{
+				text-align: left; 
 			}
-		}
-	})
+		</style>
+	</head>
 
-	//搜索分页
-	function search() {
-		$('#pageToolbar').html("");
-		// $.ajax({
-		// 	type: "get",
-		// 	url: org_url + dataUrl.managers + "?token=" + localStorage.token+"&time="+new Date().getTime(),
-		// 	data: {
-		// 		page: 1,
-		// 		size: 10,
-		// 		phone: $("#phone").val().trim(),
-		// 		name: $("#name").val().trim(),
-		// 		valid: $("#valid").val(),
-		// 	},
-		// 	async: true,
-		// 	dataType: "json",
-		// 	xhrFields: {
-		// 		withCredentials: true
-		// 	},
-		// 	crossDomain: true,
-		// 	success: function(data) {
-		// 		if(data.code == '10010') {
-		// 			layer.alert('身份验证失败！请重新登录！', {
-		// 				yes: function() {
-		// 					parent.location.href = "../../enter.html";
-		// 				},
-		// 				cancel: function() {
-		// 					parent.location.href = "../../enter.html";
-		// 				}
-		// 			});
-		// 			return false;
-		// 		}
-		// 		$(".addlist").html(evalText(data.data));
-		$('#pageToolbar').Paging({
-			pagesize: 10,
-			count: 20,
-			toolbar: true,
-			hash: true,
-			callback: function (page, size, count) {
-				//console.log(page+'***'+size+'------'+count)
-				$.ajax({
-					type: "get",
-					url: org_url + dataUrl.managers + "?token=" + localStorage.token + "&time=" + new Date().getTime(),
-					data: {
-						page: page,
-						size: size,
-						phone: $("#phone").val().trim(),
-						name: $("#name").val().trim(),
-						valid: $("#valid").val(),
-					},
-					async: true,
-					xhrFields: {
-						withCredentials: true
-					},
-					dataType: "json",
-					crossDomain: true,
-					success: function (data) {
-						if (data.code == '10010') {
-							layer.alert('身份验证失败！请重新登录！', {
-								yes: function () {
-									parent.location.href = "../../enter.html";
-								},
-								cancel: function () {
-									parent.location.href = "../../enter.html";
-								}
-							});
-							return false;
-						}
-						$(".addlist").html(evalText(data.data));
-					}
-				});
-			},
-			changePagesize: function (ps) {
-				$.ajax({
-					type: "get",
-					url: org_url + dataUrl.managers + "?token=" + localStorage.token + "&time=" + new Date().getTime(),
-					data: {
-						page: 1,
-						size: ps,
-						phone: $("#phone").val().trim(),
-						name: $("#name").val().trim(),
-						valid: $("#valid").val(),
-					},
-					success: function (data) {
-						if (data.code == '10010') {
-							layer.alert('身份验证失败！请重新登录！', {
-								yes: function () {
-									parent.location.href = "../../enter.html";
-								},
-								cancel: function () {
-									parent.location.href = "../../enter.html";
-								}
-							});
-							return false;
-						}
-						$(".addlist").html(evalText(data.data));
-					}
-				});
-			}
+	<body>
+		<div class="main container-fluid" id="main">
+			<div class="layui-tab layui-tab-brief" lay-filter="test">
+				<ul class="layui-tab-title" style="margin-bottom: 15px">
+					<li class="layui-this">正式报名</li>
+					<li>预约报名</li>
+				</ul>
+				<div class="layui-tab-content">
+					<div class="layui-tab-item layui-show">
+						<div class="row head" style="padding: 6px 0;">
+							<h3 class="col-xs-2">查询区</h3>
+							<div class="col-sm-9 col-xs-3"></div>
+						</div>
+						<div class="row state">
+							<form class="form-horizontal" role="form">
+								<div class="form-group">
+									<label for="name" class="col-sm-1 control-label text-left">文章标题</label>
+									<div class="col-sm-4">
+										<input type="text" id="name" v-model="name" name="" maxlength="20" class="form-control admin_name" />
+									</div>
+									<div id="btnSearch" @click="search(1,1)" class="search_01 col-sm-2 col-sm-offset-1">查询</div>
+								</div>
+							</form>
+						</div>
+						<div class="row head numshu_btm">
+							<div class="btngroup">
+								<input class="commonbtn addAdmin" @click="addSub(1)" type="button" value="新建课程" />
+							</div>
+						</div>
+						<div class="numshu_btm" style="margin-top: 0;">
+							<div class="list_btm">
+								<div class="table-responsive">
+									<table class="table table-hover addlist" style="text-align: center;">
+										<thead>
+											<tr>
+												<th><strong>文章标题</strong></th>
+												<th><strong>简介</strong></th>
+												<th><strong>导师名称</strong></th>
+												<th><strong>导师介绍</strong></th>
+												<th><strong>上课时间</strong></th>
+												<th><strong>操作</strong></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr v-for="(official,index) in datalists">
+												<td>{{official.title}}</td>
+												<td>{{official.courseRemark}}</td>
+												<td>{{official.teacherName}}</td>
+												<td>{{official.teacherRemark}}</td>
+												<td>{{new Date(official.startTime).Format('yyyy-MM-dd')}}</td>
+												<td>
+													<a href="javascript:;" @click="edit(1,official.id)">编辑</a>
+													<a href="javascript:;" @click="del(official.id)">删除</a>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="row pro_list_btm">
+									<div class="col-xs-6 col-sm-3 text-center">
+
+									</div>
+									<div class="col-xs-7 col-sm-9">
+										<div id="pageToolbar" style="float: right;margin-right: 20px;"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="layui-tab-item">
+						<div class="row head" style="padding: 6px 0;">
+							<h3 class="col-xs-2">查询区</h3>
+							<div class="col-sm-9 col-xs-3"></div>
+						</div>
+						<div class="row state">
+							<form class="form-horizontal" role="form">
+								<div class="form-group">
+									<label for="name2" class="col-sm-1 control-label text-left">文章标题</label>
+									<div class="col-sm-4">
+										<input type="text" id="name2" v-model="name2" name="" maxlength="20" class="form-control admin_name" />
+									</div>
+									<div id="btnSearch2" @click="search(2,2)" class="search_01 col-sm-2 col-sm-offset-1">查询</div>
+								</div>
+							</form>
+						</div>
+						<div class="row head numshu_btm">
+							<div class="btngroup">
+								<input class="commonbtn addAdmin" @click="addSub(2)" type="button" value="新建课程" />
+							</div>
+						</div>
+						<div class="numshu_btm" style="margin-top: 0;">
+							<div class="list_btm">
+								<div class="table-responsive">
+									<table class="table table-hover addlist" style="text-align: center;">
+										<thead>
+											<tr>
+												<th><strong>文章标题</strong></th>
+												<th><strong>简介</strong></th>
+												<th><strong>导师名称</strong></th>
+												<th><strong>导师介绍</strong></th>
+												<th><strong>上课时间</strong></th>
+												<th><strong>操作</strong></th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr v-for="(mark,index) in datalists">
+												<td>{{mark.title}}</td>
+												<td>{{mark.courseRemark}}</td>
+												<td>{{mark.teacherName}}</td>
+												<td>{{mark.teacherRemark}}</td>
+												<td>{{new Date(mark.startTime).Format('yyyy-MM-dd')}}</td>
+												<td>
+													<a href="javascript:;" @click="edit(2,mark.id)">编辑</a>
+													<a href="javascript:;" @click="del(mark.id,index)">删除</a>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<div class="row pro_list_btm">
+									<div class="col-xs-6 col-sm-3 text-center">
+
+									</div>
+									<div class="col-xs-7 col-sm-9">
+										<div id="pageToolbar1" style="float: right;margin-right: 20px;"></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</body>
+	<script type="text/javascript" src="../../js/common/jquery.min2.0.js"></script>
+	<script type="text/javascript" src="../../plugin/paging/query.js"></script>
+	<script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../plugin/bootstrap-select/js/bootstrap-select.min.js"></script>
+	<script type="text/javascript" src="../../plugin/paging/paging.js"></script>
+	<script type="text/javascript" src="../../plugin/layer/layer.js"></script>
+	<script type="text/javascript" src="../../plugin/layui/layui.all.js"></script>
+	<script src="../../js/dataUrl.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../plugin/vue/vue.js"></script>
+	<script>
+		var tabindex = 1,
+			vvm,t,d;
+		layui.use('element', function() {
+			var element = layui.element;
+			element.on('tab(test)', function(data) {
+				tabindex = data.index + 1;
+				vvm.search(tabindex);
+				console.log(tabindex);
+			});
 		});
-		// 	}
-		// });
-	}
 
-
-	//点击查看
-	function seeAdmin(id, see) {
-		window.location.href = 'admin_add.html?id=' + id + '&see=' + see;
-	}
-
-	//点击编辑
-	function editAdmin(id) {
-		//			$('.breadcrumb',window.parent.document).append('<li class="active add_teacher_bar"><span class="Current_page iframeurl" name="view/userManage/admin_edit.html" style="color: rgb(51, 51, 51); cursor: default;">编辑教师</span></li>');
-		window.location.href = 'admin_edit.html?id=' + id;
-	}
-
-	//点击删除用户
-	function delteAdmin(id) {
-		layer.open({
-			title: "",
-			content: '确定删除该用户吗？',
-			skin: 'layui-layer-lana',
-			shadeClose: 'true',
-			btn: ['确定', "取消"],
-			yes: function (index, layero) {
-				$.ajax({
-					type: "delete",
-					url: org_url + dataUrl.manager + id + '?token=' + localStorage.token,
-					async: true,
-					dataType: "json",
-					xhrFields: {
-						withCredentials: true
-					},
-					crossDomain: true,
-					success: function (data) {
-						if (data.code == '10010') {
-							layer.alert('身份验证失败！请重新登录！', {
-								yes: function () {
-									parent.location.href = "../../enter.html";
-								},
-								cancel: function () {
-									parent.location.href = "../../enter.html";
-								}
-							});
-							return false;
+		$(function() {
+			vvm = new Vue({
+				el: '#main',
+				data: {
+					datalists: [],
+					page: 1,
+					size: 10,
+					name: '',
+					name2: ''
+				},
+				created: function() {
+					this.search(tabindex, 1);
+				},
+				methods: {
+					addSub: function(num) {
+						if(num === 1) {
+							window.location.href = 'add_edit.html?index=1';
+						} else if(num === 2) {
+							window.location.href = 'add_edit.html?index=2';
 						}
-						if (data == 1) {
-							layer.alert('删除成功！', function (index) {
+					},
+					edit: function(num, id) {
+						if(num === 1) {
+							window.location.href = 'add_edit.html?index=1&edit=true&id=' + id;
+						} else if(num === 2) {
+							window.location.href = 'add_edit.html?index=2&edit=true&id=' + id;
+						}
+					},
+					del: function(id,i) {
+						var _this = this;
+						layer.open({
+							title: "",
+							content: '确定删除该吗？',
+							skin: 'layui-layer-lana',
+							shadeClose: 'true',
+							btn: ['确定', "取消"],
+							yes: function(index, layero) {
+								$.ajax({
+									type: "post",
+									url: org_url + dataUrl.course + '/' + id + '?token=' + token,
+									success: function(data) {
+										layer.alert(data.info.msg,function(index) {
+											_this.datalists.splice(i,1);
+											layer.close(index);
+										})
+									}
+								});
 								layer.close(index);
-								$("#manager" + id).remove();
-								search();
+							},
+							btn2: function(index, layero) {
+								//按钮【按钮二】的回调
+								layer.close(index);
+							}
+						});
+					},
+					search: function(t, d) {
+						t = t;
+						d = d;
+						var signType = t === 1 ? 1 : 2;
+						var _this = this;
+						var sdata = {
+							page: _this.page,
+							size: _this.size,
+							signType: signType,
+							token: token
+						}
+						if(d) {
+							sdata.title = t === 1 ? _this.name : _this.name2;
+						}
+						$('#pageToolbar').html("");
+						$('#pageToolbar1').html("");
+						$.ajax({
+							type: "get",
+							url: org_url + dataUrl.course + "?time=" + new Date().getTime(),
+							data: sdata,
+							async: true,
+							dataType: "json",
+							xhrFields: {
+								withCredentials: true
+							},
+							crossDomain: true,
+							success: function(data) {
+								_this.dialogInfo(data);
+								var idname = t === 1 ? '#pageToolbar' : '#pageToolbar1';
+								$(idname).Paging({
+									pagesize: 10,
+									count: data.info.data.total,
+									toolbar: true,
+									hash: true,
+									callback: function(page, size, count) {
+										sdata.page = page;
+										sdata.size = size;
+										$.ajax({
+											type: "get",
+											url: org_url + dataUrl.users + "?time=" + new Date().getTime(),
+											data: sdata,
+											async: true,
+											xhrFields: {
+												withCredentials: true
+											},
+											dataType: "json",
+											crossDomain: true,
+											success: function(data) {
+												console.log(sdata);
+												_this.dialogInfo(data);
+											}
+										});
+									},
+									changePagesize: function(ps) {
+										sdata.page = 1;
+										sdata.size = ps;
+										$.ajax({
+											type: "get",
+											url: org_url + dataUrl.course + "?time=" + new Date().getTime(),
+											data: sdata,
+											success: function(data) {
+												_this.dialogInfo(data);
+											}
+										});
+									}
+								});
+							}
+						});
+					},
+					dialogInfo: function(data) {
+						if(data.info.state === 0) {
+							this.datalists = data.info.data.list;
+						} else if(data.info.state === -1) {
+							layer.alert(data.info.msg, {
+								yes: function() {
+									parent.location.href = "../../enter.html";
+								},
+								cancel: function() {
+									parent.location.href = "../../enter.html";
+								}
 							});
-						} else {
-							layer.alert('删除失败！' + data.msg);
+							return false;
 						}
 					}
-				});
-				layer.close(index);
-			},
-			btn2: function (index, layero) {
-				//按钮【按钮二】的回调
-				layer.close(index);
-			}
-		});
-	}
-</script>
+				}
+			})
+		})
+	</script>
 
 </html>

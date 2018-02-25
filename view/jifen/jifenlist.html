@@ -1,332 +1,251 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset="UTF-8">
-    <title>管理员用户管理</title>
-    <meta http-equiv="pragma" content="no-cache">
-    <meta http-equiv="cache-control" content="no-cache">
-    <meta http-equiv="expires" content="0">
-    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-    <link rel="stylesheet" type="text/css" href="../../css/common/reset.css" />
-    <link rel="stylesheet" href="../../plugin/bootstrap/bootstrap.min.css" />
-    <link rel="stylesheet" href="../../plugin/paging/paging.css" />
-    <link rel="stylesheet" href="../../plugin/bootstrap-select/css/bootstrap-select.css" />
-    <link rel="stylesheet" href="../../css/common/common_list.css" />
-    <link rel="stylesheet" href="../../css/common/common.css" />
-    <link rel="stylesheet" href="../../css/knowledge/knowledge_list.css" />
-</head>
-
-<body>
-<div class="main container-fluid">
-    <div class="row head" style="padding: 6px 0;">
-        <h3 class="col-xs-2">查询区</h3>
-        <div class="col-sm-9 col-xs-3"></div>
-    </div>
-    <div class="row state"><Emmanuel></Emmanuel>
-        <form class="form-horizontal" role="form">
-            <div class="form-group">
-                <label for="phone" class="col-sm-1 control-label text-left">联系电话</label>
-                <div class="col-sm-2">
-                    <input type="text" id="phone" name="" maxlength="11" class="form-control admin_name"/>
-                </div>
-                <label for="email" class="col-sm-1 control-label text-left">邮箱</label>
-                <div class="col-sm-2">
-                    <input type="text" id="email" name="" maxlength="20" class="form-control admin_name"/>
-                </div>
-                <label for="wechat" class="col-sm-1 control-label text-left">微信</label>
-                <div class="col-sm-2">
-                    <input type="text" id="wechat" name="" maxlength="20" class="form-control admin_name"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="phone" class="col-sm-1 control-label text-left">类别</label>
-                <div class="col-sm-2">
-                    <select name="" id="valid" class="form-control admin_state" data-live-search="true">
-                        <option value="">全部</option>
-                        <option value='0'>打卡</option>
-                        <option value='1'>出勤</option>
-                        <option value='1'>考核</option>
-                        <option value='1'>加分</option>
-                        <option value='1'>积分兑换</option>
-                    </select>
-                </div>
-                <div id="btnSearch" onclick="search()" class="search_01 col-sm-2 col-sm-offset-1">查询</div>
-            </div>
-        </form>
-    </div>
-    <!--<div class="row head numshu_btm">-->
-        <!--<div class="btngroup">-->
-            <!--<input class="commonbtn addAdmin" @click="addSub(0)" type="button" value="新增礼品"/>-->
-        <!--</div>-->
-    <!--</div>-->
-    <div class="numshu_btm" style="margin-top: 0;">
-        <div class="list_btm">
-            <div class="table-responsive">
-                <table class="table table-hover addlist" style="text-align: center;">
-                    <thead>
-                    <tr>
-                        <th><strong>电话</strong></th>
-                        <th><strong>礼品名称</strong></th>
-                        <th><strong>所需积分</strong></th>
-                        <th><strong>兑换时间</strong></th>
-                        <th><strong>兑换订单号</strong></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr v-for="(student,index) in studentLists" :class="{warning:iswarning}">
-                        <td>{{(index + 1)}}</td>
-                        <td>{{student.sname}}</td>
-                        <td>{{student.gradename}}</td>
-                        <td>{{student.cname}}</td>
-                        <td>{{student.name}}</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="row pro_list_btm">
-                <div class="col-xs-6 col-sm-3 text-center">
-
-                </div>
-                <div class="col-xs-7 col-sm-9">
-                    <div id="pageToolbar" style="float: right;margin-right: 20px;"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-</body>
-<script type="text/javascript" src="../../js/doT.min.js"></script>
-<script type="text/javascript" src="../../js/common/jquery.min2.0.js"></script>
-<script type="text/javascript" src="../../plugin/paging/query.js"></script>
-<script type="text/javascript" src="../../js/bootstrap.min.js"></script>
-<script type="text/javascript" src="../../plugin/bootstrap-select/js/bootstrap-select.min.js"></script>
-<script type="text/javascript" src="../../plugin/paging/paging.js"></script>
-<script type="text/javascript" src="../../plugin/layer/layer.js"></script>
-<script src="../../js/dataUrl.js" type="text/javascript" charset="utf-8"></script>
-
-<!--<script type="text/javascript" src="../../js/knowledge/knowledge_list.js" ></script>-->
-<script>
-	var evalText;
-	$(function() {
-		evalText = doT.template($("#manager_list_tmpl").text());
-		search();
-	})
-
-	//搜索分页
-	function search() {
-		$('#pageToolbar').html("");
-		// $.ajax({
-		// 	type: "get",
-		// 	url: org_url + dataUrl.managers + "?token=" + localStorage.token+"&time="+new Date().getTime(),
-		// 	data: {
-		// 		page: 1,
-		// 		size: 10,
-		// 		phone: $("#phone").val().trim(),
-		// 		name: $("#name").val().trim(),
-		// 		valid: $("#valid").val(),
-		// 	},
-		// 	async: true,
-		// 	dataType: "json",
-		// 	xhrFields: {
-		// 		withCredentials: true
-		// 	},
-		// 	crossDomain: true,
-		// 	success: function(data) {
-		// 		if(data.code == '10010') {
-		// 			layer.alert('身份验证失败！请重新登录！', {
-		// 				yes: function() {
-		// 					parent.location.href = "../../enter.html";
-		// 				},
-		// 				cancel: function() {
-		// 					parent.location.href = "../../enter.html";
-		// 				}
-		// 			});
-		// 			return false;
-		// 		}
-		// 		$(".addlist").html(evalText(data.data));
-		$('#pageToolbar').Paging({
-			pagesize: 10,
-			count: 20,
-			toolbar: true,
-			hash: true,
-			callback: function(page, size, count) {
-				//console.log(page+'***'+size+'------'+count)
-				$.ajax({
-					type: "get",
-					url: org_url + dataUrl.managers + "?token=" + localStorage.token+"&time="+new Date().getTime(),
-					data: {
-						page: page,
-						size: size,
-						phone: $("#phone").val().trim(),
-						name: $("#name").val().trim(),
-						valid: $("#valid").val(),
-					},
-					async: true,
-					xhrFields: {
-						withCredentials: true
-					},
-					dataType: "json",
-					crossDomain: true,
-					success: function(data) {
-						if(data.code == '10010') {
-							layer.alert('身份验证失败！请重新登录！', {
-								yes: function() {
-									parent.location.href = "../../enter.html";
-								},
-								cancel: function() {
-									parent.location.href = "../../enter.html";
-								}
-							});
-							return false;
-						}
-						$(".addlist").html(evalText(data.data));
-					}
-				});
-			},
-			changePagesize: function(ps) {
-				$.ajax({
-					type: "get",
-					url: org_url + dataUrl.managers + "?token=" + localStorage.token+"&time="+new Date().getTime(),
-					data: {
-						page: 1,
-						size: ps,
-						phone: $("#phone").val().trim(),
-						name: $("#name").val().trim(),
-						valid: $("#valid").val(),
-					},
-					success: function(data) {
-						if(data.code == '10010') {
-							layer.alert('身份验证失败！请重新登录！', {
-								yes: function() {
-									parent.location.href = "../../enter.html";
-								},
-								cancel: function() {
-									parent.location.href = "../../enter.html";
-								}
-							});
-							return false;
-						}
-						$(".addlist").html(evalText(data.data));
-					}
-				});
+	<head>
+		<meta charset="UTF-8">
+		<title>管理员用户管理</title>
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="cache-control" content="no-cache">
+		<meta http-equiv="expires" content="0">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../../css/common/reset.css" />
+		<link rel="stylesheet" href="../../plugin/bootstrap/bootstrap.min.css" />
+		<link rel="stylesheet" href="../../plugin/paging/paging.css" />
+		<link rel="stylesheet" href="../../plugin/bootstrap-select/css/bootstrap-select.css" />
+		<link rel="stylesheet" href="../../css/common/common_list.css" />
+		<link rel="stylesheet" href="../../css/common/common.css" />
+		<style type="text/css">
+			td{
+				text-align: left; 
 			}
-		});
-		// 	}
-		// });
-	}
+		</style>
+	</head>
 
-	//点击新建管理员
-	$('.addAdmin').click(function() {
-		//			$('.breadcrumb',window.parent.document).append('<li class="active add_teacher_bar"><span class="Current_page iframeurl" name="view/userManage/admin_add.html" style="color: rgb(51, 51, 51); cursor: default;">新建用户</span></li>');
-		window.location.href = 'add_edit_shop.html';
-	});
+	<body>
+		<div class="main container-fluid" id="main">
+			<div class="row head" style="padding: 6px 0;">
+				<h3 class="col-xs-2">查询区</h3>
+				<div class="col-sm-9 col-xs-3"></div>
+			</div>
+			<div class="row state">
+				<form class="form-horizontal" role="form">
+					<div class="form-group">
+						<label for="phone" class="col-sm-1 control-label text-left">联系电话</label>
+						<div class="col-sm-2">
+							<input type="text" id="phone" name="" v-model="phone" maxlength="11" class="form-control admin_name" />
+						</div>
+						<label for="email" class="col-sm-1 control-label text-left">邮箱</label>
+						<div class="col-sm-2">
+							<input type="text" id="email" name="" v-model="email" maxlength="20" class="form-control admin_name" />
+						</div>
+						<label for="wechat" class="col-sm-1 control-label text-left">微信</label>
+						<div class="col-sm-2">
+							<input type="text" id="wechat" name="" v-model="wechat" maxlength="20" class="form-control admin_name" />
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="phone" class="col-sm-1 control-label text-left">类别</label>
+						<div class="col-sm-2">
+							<select name="" id="valid" v-model="valid" class="form-control admin_state" data-live-search="true">
+								<option value="">全部</option>
+								<option value='1'>打卡</option>
+								<option value='2'>出勤</option>
+								<option value='3'>考核</option>
+								<option value='4'>加分</option>
+								<option value='5'>积分兑换</option>
+							</select>
+						</div>
+						<div id="btnSearch" @click="search(1)" class="search_01 col-sm-2 col-sm-offset-1">查询</div>
+					</div>
+				</form>
+			</div>
+			<!--<div class="row head numshu_btm">-->
+			<!--<div class="btngroup">-->
+			<!--<input class="commonbtn addAdmin" @click="addSub(0)" type="button" value="新增礼品"/>-->
+			<!--</div>-->
+			<!--</div>-->
+			<div class="numshu_btm" style="margin-top: 0;">
+				<div class="list_btm">
+					<div class="table-responsive">
+						<table class="table table-hover addlist" style="text-align: center;">
+							<thead>
+								<tr>
+									<th><strong>联系电话</strong></th>
+									<th><strong>姓名</strong></th>
+									<th><strong>昵称</strong></th>
+									<th><strong>邮箱</strong></th>
+									<th><strong>微信</strong></th>
+									<th><strong>积分变动</strong></th>
+									<th><strong>剩余积分</strong></th>
+									<th><strong>类别</strong></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="(jf,index) in jifenLists">
+									<td>{{jf.phone}}</td>
+									<td>{{jf.realname}}</td>
+									<td>{{jf.nickName}}</td>
+									<td>{{jf.email}}</td>
+									<td>{{jf.wxNum}}</td>
+									<td>{{jf.pointsChange}}</td>
+									<td>{{jf.points}}</td>
+									<td>{{classify(jf.type)}}</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="row pro_list_btm">
+						<div class="col-xs-6 col-sm-3 text-center">
 
-	//点击查看
-	function seeAdmin(id, see) {
-		window.location.href = 'add_edit_shop.html?id=' + id + '&see=' + see;
-	}
+						</div>
+						<div class="col-xs-7 col-sm-9">
+							<div id="pageToolbar" style="float: right;margin-right: 20px;"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-	//点击编辑
-	function editAdmin(id) {
-		//			$('.breadcrumb',window.parent.document).append('<li class="active add_teacher_bar"><span class="Current_page iframeurl" name="view/userManage/admin_edit.html" style="color: rgb(51, 51, 51); cursor: default;">编辑教师</span></li>');
-		window.location.href = 'admin_edit.html?id=' + id;
-	}
+	</body>
+	<script type="text/javascript" src="../../js/doT.min.js"></script>
+	<script type="text/javascript" src="../../js/common/jquery.min2.0.js"></script>
+	<script type="text/javascript" src="../../plugin/paging/query.js"></script>
+	<script type="text/javascript" src="../../js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="../../plugin/bootstrap-select/js/bootstrap-select.min.js"></script>
+	<script type="text/javascript" src="../../plugin/paging/paging.js"></script>
+	<script type="text/javascript" src="../../plugin/layer/layer.js"></script>
+	<script src="../../js/dataUrl.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../js/vue/vue.js" type="text/javascript" charset="utf-8"></script>
 
-	//点击禁用用户
-	function off(id) {
-		var v = ($("#valid" + id).val() == '0' ? '1' : '0');
-		$.ajax({
-			type: "put",
-			url: org_url + dataUrl.managersstaus + id + "?token=" + localStorage.token+"&time="+new Date().getTime(),
-			async: true,
-			dataType: "json",
-			xhrFields: {
-				withCredentials: true
-			},
-			data: {
-				valid: v,
-			},
-			crossDomain: true,
-			success: function(data) {
-				if(data.code == '10010') {
-					layer.alert('身份验证失败！请重新登录！', {
-						yes: function() {
-							parent.location.href = "../../enter.html";
-						},
-						cancel: function() {
-							parent.location.href = "../../enter.html";
+	<script>
+		var vvm;
+
+		$(function() {
+			vvm = new Vue({
+				el: '#main',
+				data: {
+					jifenLists: [],
+					page: 1,
+					size: 10,
+					email: '',
+					phone: '',
+					wechat: '',
+					valid: ''
+				},
+				created: function() {
+					this.search();
+				},
+				methods: {
+					classify: function(type) {
+						var typename = '';
+						switch (type*1){
+							case 1:
+								typename = '打卡';
+								break;
+							case 1:
+								typename = '出勤'
+								break;
+							case 1:
+								typename = '考核'
+								break;
+							case 1:
+								typename = '加分'
+								break;
+							case 1:
+								typename = '积分兑换'
+								break;
+							default:
+							typename = '未知'
+								break;
 						}
-					});
-					return false;
+						return typename;
+					},
+					search: function(d) {
+						var _this = this;
+						var sdata = {
+							page: _this.page,
+							size: _this.size,
+							token: token
+						}
+						if(d) {
+							sdata.email = _this.email;
+							sdata.phone = _this.phone;
+							sdata.wxNum = _this.wechat;
+							sdata.type = _this.valid;
+						}
+						$('#pageToolbar').html("");
+						$('#pageToolbar1').html("");
+						$.ajax({
+							type: "get",
+							url: org_url + dataUrl.pointsOrder + "?time=" + new Date().getTime(),
+							data: sdata,
+							async: true,
+							dataType: "json",
+							xhrFields: {
+								withCredentials: true
+							},
+							crossDomain: true,
+							success: function(data) {
+								_this.dialogInfo(data);
+								var idname = '#pageToolbar';
+								$(idname).Paging({
+									pagesize: 10,
+									count: data.info.data.total,
+									toolbar: true,
+									hash: true,
+									callback: function(page, size, count) {
+										sdata.page = page;
+										sdata.size = size;
+										$.ajax({
+											type: "get",
+											url: org_url + dataUrl.pointsOrder + "?time=" + new Date().getTime(),
+											data: sdata,
+											async: true,
+											xhrFields: {
+												withCredentials: true
+											},
+											dataType: "json",
+											crossDomain: true,
+											success: function(data) {
+												console.log(sdata);
+												_this.dialogInfo(data);
+											}
+										});
+									},
+									changePagesize: function(ps) {
+										sdata.page = 1;
+										sdata.size = ps;
+										$.ajax({
+											type: "get",
+											url: org_url + dataUrl.pointsOrder + "?time=" + new Date().getTime(),
+											data: sdata,
+											success: function(data) {
+												_this.dialogInfo(data);
+											}
+										});
+									}
+								});
+							}
+						});
+					},
+					dialogInfo: function(data) {
+						if(data.info.state === 0) {
+							this.jifenLists = data.info.data.list;
+						} else if(data.info.state === -1) {
+							layer.alert(data.info.msg, {
+								yes: function() {
+									parent.location.href = "../../newenter.html";
+								},
+								cancel: function() {
+									parent.location.href = "../../newenter.html";
+								}
+							});
+							return false;
+						}
+					}
 				}
-				//alert(v);
-				if(data == 1) {
-					layer.alert(v == "0" ? "已禁用" : "已启用");
-					$("#valid" + id).val(v);
-					$("#validText" + id).html(v == "0" ? "已禁用" : "已启用");
-					$("#validHref" + id).html(v == "0" ? "启用" : "禁用");
-				} else {
-					layer.alert("修改失败！");
-				}
-
-				//window.location.href='user.html';
-				//$('.add_teacher_bar',window.parent.document).remove();
-			}
-		});
-
-	}
-
-	//点击删除用户
-	function delteAdmin(id) {
-		layer.open({
-			title: "",
-			content: '确定删除该用户吗？',
-			skin: 'layui-layer-lana',
-			shadeClose: 'true',
-			btn: ['确定', "取消"],
-			yes: function(index, layero) {
-				$.ajax({
-					type: "delete",
-					url: org_url + dataUrl.manager + id + '?token=' + localStorage.token,
-					async: true,
-					dataType: "json",
-					xhrFields: {
-						withCredentials: true
-					},
-					crossDomain: true,
-					success: function(data) {
-						if(data.code == '10010') {
-							layer.alert('身份验证失败！请重新登录！', {
-								yes: function() {
-									parent.location.href = "../../enter.html";
-								},
-								cancel: function() {
-									parent.location.href = "../../enter.html";
-								}
-							});
-							return false;
-						}
-						if(data == 1) {
-							layer.alert('删除成功！', function(index) {
-								layer.close(index);
-								$("#manager" + id).remove();
-								search();
-							});
-						} else {
-							layer.alert('删除失败！' + data.msg);
-						}
-					}
-				});
-				layer.close(index);
-			},
-			btn2: function(index, layero) {
-				//按钮【按钮二】的回调
-				layer.close(index);
-			}
-		});
-	}
-</script>
+			})
+		})
+	</script>
 
 </html>

@@ -26,13 +26,9 @@
     <div class="row state">
         <form class="form-horizontal" role="form">
             <div class="form-group">
-                <label for="name" class="col-sm-1 control-label text-left">礼品名称</label>
+                <label for="name" class="col-sm-1 control-label text-left">文章标题</label>
                 <div class="col-sm-3">
                     <input type="text" id="name" name="" maxlength="20" class="form-control admin_name"/>
-                </div>
-                <label for="jifen" class="col-sm-1 control-label text-left">礼品积分</label>
-                <div class="col-sm-3">
-                    <input type="text" id="jifen" name="" maxlength="20" class="form-control admin_name"/>
                 </div>
                 <div id="btnSearch" onclick="search()" class="search_01 col-sm-2 col-sm-offset-1">查询</div>
             </div>
@@ -40,7 +36,7 @@
     </div>
     <div class="row head numshu_btm">
         <div class="btngroup">
-            <input class="commonbtn addAdmin" @click="addSub(0)" type="button" value="新增礼品"/>
+            <input class="commonbtn addAdmin" @click="addSub(0)" type="button" value="新增"/>
         </div>
     </div>
     <div class="numshu_btm" style="margin-top: 0;">
