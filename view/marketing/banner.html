@@ -14,11 +14,15 @@
     <link rel="stylesheet" href="../../plugin/bootstrap-select/css/bootstrap-select.css" />
     <link rel="stylesheet" href="../../css/common/common_list.css" />
     <link rel="stylesheet" href="../../css/common/common.css" />
-    <link rel="stylesheet" href="../../css/knowledge/knowledge_list.css" />
+    <style type="text/css">
+    	td{
+        text-align: left; 
+      }
+    </style>
 </head>
 
 <body>
-<div class="main container-fluid">
+<div class="main container-fluid" id="main">
     <div class="row head" style="padding: 6px 0;">
         <h3 class="col-xs-2">查询区</h3>
         <div class="col-sm-9 col-xs-3"></div>
@@ -28,9 +32,9 @@
             <div class="form-group">
                 <label for="name" class="col-sm-1 control-label text-left">标题</label>
                 <div class="col-sm-4">
-                    <input type="text" id="name" name="" maxlength="20" class="form-control admin_name"/>
+                    <input type="text" v-model="title" id="name" name="" maxlength="20" class="form-control admin_name"/>
                 </div>
-                <div id="btnSearch" onclick="search()" class="search_01 col-sm-2 col-sm-offset-1">查询</div>
+                <div id="btnSearch" @click="search(1)" class="search_01 col-sm-2 col-sm-offset-1">查询</div>
             </div>
         </form>
     </div>
@@ -56,17 +60,17 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr v-for="(student,index) in studentLists" :class="{warning:iswarning}">
-                        <td>{{(index + 1)}}</td>
-                        <td>{{student.sname}}</td>
-                        <td>{{student.gradename}}</td>
-                        <td>{{student.cname}}</td>
-                        <td>{{student.name}}</td>
-                        <td>{{student.name}}</td>
-                        <td>{{student.name}}</td>
+                    <tr v-for="(banner,index) in bannerlists" :class="{warning:iswarning}">
+                        <td>{{banner.title}}</td>
+                        <td><img :src="banner.thumbnail_url" width="100" height="45" alt="banner图片"/></td>
+                        <td>{{banner.startTime}}</td>
+                        <td>{{banner.endTime}}</td>
+                        <td>{{banner.bannerType}}</td>
+                        <td>{{banner.sort}}</td>
+                        <td>{{banner.state === 0 ? '下线' : '上线'}}</td>
                         <td>
-                            <a href="javascript:;" @click="seeStudent('see',student.id)">编辑</a>
-                            <a href="javascript:;" @click="seeStudent('see',student.id)">删除</a>
+                            <a href="javascript:;" @click="edit(banner.id,banner.title)">编辑</a>
+                            <a href="javascript:;" @click="del(banner.id,index)">删除</a>
                         </td>
                     </tr>
                     </tbody>
@@ -85,7 +89,6 @@
 </div>
 
 </body>
-<script type="text/javascript" src="../../js/doT.min.js"></script>
 <script type="text/javascript" src="../../js/common/jquery.min2.0.js"></script>
 <script type="text/javascript" src="../../plugin/paging/query.js"></script>
 <script type="text/javascript" src="../../js/bootstrap.min.js"></script>
@@ -93,228 +96,141 @@
 <script type="text/javascript" src="../../plugin/paging/paging.js"></script>
 <script type="text/javascript" src="../../plugin/layer/layer.js"></script>
 <script src="../../js/dataUrl.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../js/vue/vue.js" type="text/javascript" charset="utf-8"></script>
 
-<!--<script type="text/javascript" src="../../js/knowledge/knowledge_list.js" ></script>-->
 <script>
-	var evalText;
-	$(function() {
-		evalText = doT.template($("#manager_list_tmpl").text());
-		search();
-	})
+    var vvm;
 
-	//搜索分页
-	function search() {
-		$('#pageToolbar').html("");
-		// $.ajax({
-		// 	type: "get",
-		// 	url: org_url + dataUrl.managers + "?token=" + localStorage.token+"&time="+new Date().getTime(),
-		// 	data: {
-		// 		page: 1,
-		// 		size: 10,
-		// 		phone: $("#phone").val().trim(),
-		// 		name: $("#name").val().trim(),
-		// 		valid: $("#valid").val(),
-		// 	},
-		// 	async: true,
-		// 	dataType: "json",
-		// 	xhrFields: {
-		// 		withCredentials: true
-		// 	},
-		// 	crossDomain: true,
-		// 	success: function(data) {
-		// 		if(data.code == '10010') {
-		// 			layer.alert('身份验证失败！请重新登录！', {
-		// 				yes: function() {
-		// 					parent.location.href = "../../enter.html";
-		// 				},
-		// 				cancel: function() {
-		// 					parent.location.href = "../../enter.html";
-		// 				}
-		// 			});
-		// 			return false;
-		// 		}
-		// 		$(".addlist").html(evalText(data.data));
-		$('#pageToolbar').Paging({
-			pagesize: 10,
-			count: 20,
-			toolbar: true,
-			hash: true,
-			callback: function(page, size, count) {
-				//console.log(page+'***'+size+'------'+count)
-				$.ajax({
-					type: "get",
-					url: org_url + dataUrl.managers + "?token=" + localStorage.token+"&time="+new Date().getTime(),
-					data: {
-						page: page,
-						size: size,
-						phone: $("#phone").val().trim(),
-						name: $("#name").val().trim(),
-						valid: $("#valid").val(),
-					},
-					async: true,
-					xhrFields: {
-						withCredentials: true
-					},
-					dataType: "json",
-					crossDomain: true,
-					success: function(data) {
-						if(data.code == '10010') {
-							layer.alert('身份验证失败！请重新登录！', {
-								yes: function() {
-									parent.location.href = "../../enter.html";
-								},
-								cancel: function() {
-									parent.location.href = "../../enter.html";
-								}
-							});
-							return false;
-						}
-						$(".addlist").html(evalText(data.data));
-					}
-				});
-			},
-			changePagesize: function(ps) {
-				$.ajax({
-					type: "get",
-					url: org_url + dataUrl.managers + "?token=" + localStorage.token+"&time="+new Date().getTime(),
-					data: {
-						page: 1,
-						size: ps,
-						phone: $("#phone").val().trim(),
-						name: $("#name").val().trim(),
-						valid: $("#valid").val(),
-					},
-					success: function(data) {
-						if(data.code == '10010') {
-							layer.alert('身份验证失败！请重新登录！', {
-								yes: function() {
-									parent.location.href = "../../enter.html";
-								},
-								cancel: function() {
-									parent.location.href = "../../enter.html";
-								}
-							});
-							return false;
-						}
-						$(".addlist").html(evalText(data.data));
-					}
-				});
-			}
-		});
-		// 	}
-		// });
-	}
-
-	//点击新建管理员
-	$('.addAdmin').click(function() {
-		//			$('.breadcrumb',window.parent.document).append('<li class="active add_teacher_bar"><span class="Current_page iframeurl" name="view/userManage/admin_add.html" style="color: rgb(51, 51, 51); cursor: default;">新建用户</span></li>');
-		window.location.href = 'add_edit_banner.html';
-	});
-
-	//点击查看
-	function seeAdmin(id, see) {
-		window.location.href = 'add_edit_shop.html?id=' + id + '&see=' + see;
-	}
-
-	//点击编辑
-	function editAdmin(id) {
-		//			$('.breadcrumb',window.parent.document).append('<li class="active add_teacher_bar"><span class="Current_page iframeurl" name="view/userManage/admin_edit.html" style="color: rgb(51, 51, 51); cursor: default;">编辑教师</span></li>');
-		window.location.href = 'admin_edit.html?id=' + id;
-	}
-
-	//点击禁用用户
-	function off(id) {
-		var v = ($("#valid" + id).val() == '0' ? '1' : '0');
-		$.ajax({
-			type: "put",
-			url: org_url + dataUrl.managersstaus + id + "?token=" + localStorage.token+"&time="+new Date().getTime(),
-			async: true,
-			dataType: "json",
-			xhrFields: {
-				withCredentials: true
-			},
-			data: {
-				valid: v,
-			},
-			crossDomain: true,
-			success: function(data) {
-				if(data.code == '10010') {
-					layer.alert('身份验证失败！请重新登录！', {
-						yes: function() {
-							parent.location.href = "../../enter.html";
-						},
-						cancel: function() {
-							parent.location.href = "../../enter.html";
-						}
-					});
-					return false;
-				}
-				//alert(v);
-				if(data == 1) {
-					layer.alert(v == "0" ? "已禁用" : "已启用");
-					$("#valid" + id).val(v);
-					$("#validText" + id).html(v == "0" ? "已禁用" : "已启用");
-					$("#validHref" + id).html(v == "0" ? "启用" : "禁用");
-				} else {
-					layer.alert("修改失败！");
-				}
-
-				//window.location.href='user.html';
-				//$('.add_teacher_bar',window.parent.document).remove();
-			}
-		});
-
-	}
-
-	//点击删除用户
-	function delteAdmin(id) {
-		layer.open({
-			title: "",
-			content: '确定删除该用户吗？',
-			skin: 'layui-layer-lana',
-			shadeClose: 'true',
-			btn: ['确定', "取消"],
-			yes: function(index, layero) {
-				$.ajax({
-					type: "delete",
-					url: org_url + dataUrl.manager + id + '?token=' + localStorage.token,
-					async: true,
-					dataType: "json",
-					xhrFields: {
-						withCredentials: true
-					},
-					crossDomain: true,
-					success: function(data) {
-						if(data.code == '10010') {
-							layer.alert('身份验证失败！请重新登录！', {
-								yes: function() {
-									parent.location.href = "../../enter.html";
-								},
-								cancel: function() {
-									parent.location.href = "../../enter.html";
-								}
-							});
-							return false;
-						}
-						if(data == 1) {
-							layer.alert('删除成功！', function(index) {
-								layer.close(index);
-								$("#manager" + id).remove();
-								search();
-							});
-						} else {
-							layer.alert('删除失败！' + data.msg);
-						}
-					}
-				});
-				layer.close(index);
-			},
-			btn2: function(index, layero) {
-				//按钮【按钮二】的回调
-				layer.close(index);
-			}
-		});
-	}
-</script>
+    $(function() {
+      vvm = new Vue({
+        el: '#main',
+        data: {
+          bannerlists: [],
+          page: 1,
+          size: 10,
+          title: ''
+        },
+        created: function() {
+          this.search();
+        },
+        methods: {
+          addSub: function(num) {
+            window.location.href = 'add_edit_banner.html';
+          },
+          edit: function(id,name) {
+            console.log(name)
+            window.location.href = 'add_edit_banner.html?id=' + id+'&name='+name;
+          },
+          del: function(id,i) {
+            var _this = this;
+            layer.open({
+              title: "",
+              content: '确定删除该吗？',
+              skin: 'layui-layer-lana',
+              shadeClose: 'true',
+              btn: ['确定', "取消"],
+              yes: function(index, layero) {
+                $.ajax({
+                  type: "post",
+                  url: org_url + dataUrl.banner + '/' + id + '?token=' + token,
+                  success: function(data) {
+                    layer.alert(data.info.msg,function(index) {
+                      _this.shoplists.splice(i,1);
+                      layer.close(index);
+                    })
+                  }
+                });
+                layer.close(index);
+              },
+              btn2: function(index, layero) {
+                //按钮【按钮二】的回调
+                layer.close(index);
+              }
+            });
+          },
+          search: function(d) {
+            var _this = this;
+            var sdata = {
+              page: _this.page,
+              size: _this.size,
+              token: token
+            }
+            if(d) {
+              sdata.title = _this.title;
+            }
+            $('#pageToolbar').html("");
+            $('#pageToolbar1').html("");
+            $.ajax({
+              type: "get",
+              url: org_url + dataUrl.banner + "?time=" + new Date().getTime(),
+              data: sdata,
+              async: true,
+              dataType: "json",
+              xhrFields: {
+                withCredentials: true
+              },
+              crossDomain: true,
+              success: function(data) {
+                _this.dialogInfo(data);
+                var idname = '#pageToolbar';
+                $(idname).Paging({
+                  pagesize: 10,
+                  count: data.info.data.total,
+                  toolbar: true,
+                  hash: true,
+                  callback: function(page, size, count) {
+                    sdata.page = page;
+                    sdata.size = size;
+                    $.ajax({
+                      type: "get",
+                      url: org_url + dataUrl.banner + "?time=" + new Date().getTime(),
+                      data: sdata,
+                      async: true,
+                      xhrFields: {
+                        withCredentials: true
+                      },
+                      dataType: "json",
+                      crossDomain: true,
+                      success: function(data) {
+                        console.log(sdata);
+                        _this.dialogInfo(data);
+                      }
+                    });
+                  },
+                  changePagesize: function(ps) {
+                    sdata.page = 1;
+                    sdata.size = ps;
+                    $.ajax({
+                      type: "get",
+                      url: org_url + dataUrl.commodity + "?time=" + new Date().getTime(),
+                      data: sdata,
+                      success: function(data) {
+                        _this.dialogInfo(data);
+                      }
+                    });
+                  }
+                });
+              }
+            });
+          },
+          dialogInfo: function(data) {
+            if(data.info.state === 0) {
+              this.bannerlists = data.info.data.list;
+            } else if(data.info.state === -1) {
+              layer.alert(data.info.msg, {
+                yes: function() {
+                  parent.location.href = "../../newenter.html";
+                },
+                cancel: function() {
+                  parent.location.href = "../../newenter.html";
+                }
+              });
+              return false;
+            }
+          }
+        }
+      })
+    })
+  </script>
 
 </html>

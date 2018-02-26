@@ -58,7 +58,7 @@
 	</head>
 
 	<body>
-		<div class="main container-fluid" style="overflow:inherit;padding: 0;border: 0;" id="videoMain">
+		<div class="main container-fluid" style="overflow:inherit;padding: 0;border: 0;" id="main">
 			
 			<div class="list_btm">
 				<div class="form-horizontal">
@@ -67,7 +67,7 @@
 							<span style="padding-left: 20px;">营销类型：</span>
 						</label>
 						<div class="col-sm-8">
-							<select class="form-control admin_state" data-live-search="true">
+							<select class="form-control admin_state" v-model="bannerType" data-live-search="true">
 								<option value="1" selected>banner</option>
 							</select>
 						</div>
@@ -77,7 +77,7 @@
 							<span style="padding-left: 20px;">标题：</span>
 						</label>
 						<div class="col-sm-8">
-							<input class="form-control" type="" name="" id="" v-model="videoname" maxlength="50" placeholder="请输入标题" />
+							<input class="form-control" type="" v-model="title" name="" id="" v-model="videoname" maxlength="50" placeholder="请输入标题" />
 						</div>
 					</div>
 					<div class="form-group">
@@ -85,7 +85,7 @@
 							<span style="padding-left: 20px;">链接：</span>
 						</label>
 						<div class="col-sm-8">
-							<input class="form-control" type="" name="" id="" v-model="videoname" maxlength="50" placeholder="请输入链接" />
+							<input class="form-control" type="" v-model="url" name="" id="" v-model="videoname" maxlength="50" placeholder="请输入链接" />
 						</div>
 					</div>
 					<div class="form-group">
@@ -93,7 +93,7 @@
 							<span style="padding-left: 20px;">开始时间：</span>
 						</label>
 						<div class="col-sm-8">
-							<input class="form-control" type="" name="" id="" v-model="videoname" maxlength="50" placeholder="请输入礼品积分" />
+							<input class="form-control" type="" v-model="startTime" name="" id="" v-model="videoname" maxlength="50" placeholder="请输入礼品积分" />
 						</div>
 					</div>
 					<div class="form-group">
@@ -101,7 +101,7 @@
 							<span style="padding-left: 20px;">结束时间：</span>
 						</label>
 						<div class="col-sm-8">
-							<textarea class="form-control" type="" name="" id="" v-model="videoname" maxlength="50" placeholder="请输入礼品描述"></textarea>
+							<textarea class="form-control" type="" v-model="endTime" name="" id="" v-model="videoname" maxlength="50" placeholder="请输入礼品描述"></textarea>
 						</div>
 					</div>
 					<div class="form-group">
@@ -109,7 +109,7 @@
 							<span style="padding-left: 20px;">顺序：</span>
 						</label>
 						<div class="col-sm-8">
-							<select class="form-control admin_state" data-live-search="true">
+							<select class="form-control admin_state" v-model="sort" data-live-search="true">
 								<option value="1">1</option>
 								<option value="1">2</option>
 							</select>
@@ -120,8 +120,8 @@
 							<span class="" style="padding-left: 20px;">状态：</span>
 						</label>
 						<div class="col-sm-8">
-							<input type="radio" name="status" id="on"><label for="on">启用</label>
-							<input type="radio" name="status" id="off"><label for="off">禁用</label>
+							<input type="radio" name="status" v-model="state" value="1" id="on"><label for="on">启用</label>
+							<input type="radio" name="status" v-model="state" value="0" id="off"><label for="off">禁用</label>
 						</div>
 					</div>
 				</div>
@@ -131,10 +131,10 @@
 							<span class="" style="padding-left: 20px;">图片：</span>
 						</label>
 						<div class="col-sm-8">
-							<input type="file" name="" id="videoimg" value="" @change="videoImgFile($event)" style="display: none;" />
-							<button class="btn btn-sm btn-default videoimg">浏览</button>
+							<input type="file" name="" id="fileimg" value="" @change="ImgFile($event)" style="display: none;" />
+							<button class="btn btn-sm btn-default videoimg" @click="uFile">浏览</button>
 							<div style="margin-top: 10px;width: 268px;height: 188px;border: 1px solid #eee;position: relative;">
-								<img :src="videoimgsrc" width="268" height="188" alt="图片预览区域" />
+								<img :src="imgsrc" width="268" height="188" alt="图片预览区域" />
 								<div class="progress progress-img none" style="margin-top: 5px;position: absolute;left: 0;bottom: 0;width: 100%;">
 									<div id="progress-bar-img" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em;">0%
 									</div>
@@ -159,14 +159,124 @@
 	<script type="text/javascript" src="../../plugin/bootstrap-select/js/bootstrap-select.min.js"></script>
 	<script type="text/javascript" src="../../plugin/paging/paging.js"></script>
 	<script type="text/javascript" src="../../plugin/layer/layer.js"></script>
-	<script type="text/javascript" src="../../js/jquery.ztree.core.js"></script>
-	<script type="text/javascript" src="../../js/jquery.ztree.excheck.js"></script>
-	<script type="text/javascript" src="../../js/jquery.ztree.exedit.js"></script>
 	<script src="../../js/vue/vue.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../../js/dataUrl.js" type="text/javascript" charset="utf-8"></script>
 	<script src="https://www.promisejs.org/polyfills/promise-6.1.0.js"></script>
 	<script src="http://gosspublic.alicdn.com/aliyun-oss-sdk-4.4.4.min.js"></script>
-	<script src="../../js/md5.js" type="text/javascript" charset="utf-8"></script>
-	<!--<script src="../../js/onlinevideo/editvideo.js" type="text/javascript" charset="utf-8"></script>-->
-
+  <script type="text/javascript">
+    var vvm = null,
+      edit = urlParse().id;
+      console.log(urlParse())
+    $(function() {
+      vvm = new Vue({
+        el: '#main',
+        data: {
+          bannerType: 1,
+          title: '',
+          url: '',
+          startTime: '',
+          endTime: '',
+          sort: '',
+          state: 1,
+          imgsrc: '',
+          upimgsrc: ''
+        },
+        created: function() {
+          var _this = this;
+          if (edit) {
+            $.ajax({
+              type:"get",
+              url: org_url + dataUrl.banner + "?time=" + new Date().getTime() + '&title=' + urlParse().name + '&token=' + token,
+              success: function(data) {
+                _this.dialogInfo(data);
+                var list = data.info.data.list[0];
+                _this.title = list.title;
+                _this.tname = list.teacherName;
+                _this.starttime = list.startTime;
+                _this.tdesc = list.teacherRemark;
+                _this.cdesc = list.courseRemark;
+                _this.imgsrc = list.thumbnailUrl;
+                _this.chref = list.courseUrl;
+              }
+            });
+          }
+        },
+        methods: {
+          save: function() {
+            var _this = this;
+            var udata = {
+              token: token,
+              bannerType: '',
+              title: this.title,
+              url: this.url,
+              startTime: this.starTime,
+              endTime: this.endTime,
+              sort: this.sort,
+              state: this.state,
+              thumbnailUrl: this.upimgsrc
+            }
+            if (edit) {
+              udata.id = urlParse().id;
+            }
+            console.log(udata)
+//            return
+            $.ajax({
+              type:"post",
+              url: org_url + dataUrl.banner,
+              data: udata,
+              success: function(data) {
+                console.log(data)
+                layer.alert(data.info.msg,function() {
+                  window.location.href = 'banner.html'
+                })
+              }
+            });
+          },
+          back: function() {
+            window.location.href = 'banner.html';
+          },
+          ImgFile: function(e) {
+            var _this = this;
+            var formData = new FormData();
+            formData.append('file', $(e.target)[0].files[0]);
+            $.ajax({
+              url: org_url + dataUrl.bannerUpImg + '?token=' + token,
+              type: 'POST',
+              cache: false,
+              data: formData,
+              processData: false,
+              contentType: false,
+              success: function(data) {
+                console.log(data);
+                _this.dialogInfo(data);
+                _this.imgsrc = data.info.data.url;
+                _this.upimgsrc = data.info.data.relativeUrl;
+              },
+              error: function(data) {
+                console.log(data);
+              }
+            });
+          },
+          uFile: function() {
+            $('#fileimg').click()
+          },
+          dialogInfo: function(data) {
+            if(data.info.state === 0) {
+              this.datalists = data.info.data.list;
+            } else if(data.info.state === -1) {
+              layer.alert(data.info.msg, {
+                yes: function() {
+                  parent.location.href = "../../newenter.html";
+                },
+                cancel: function() {
+                  parent.location.href = "../../newenter.html";
+                }
+              });
+              return false;
+            }
+          }
+        }
+      })
+    })
+  </script>
 </html>

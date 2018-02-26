@@ -14,6 +14,21 @@ var dataUrl = {
 	'commodityOrder': '/zh-sx-cms/commodityOrder',
 	/*积分管理*/
 	'pointsOrder': '/zh-sx-cms/users/pointsOrder',
+	/*banner*/
+	'banner': '/zh-sx-cms/banner',
+	'bannerUpImg': '/zh-sx-cms/banner/uploadImg',
+	/*首页文章*/
+	'homepage': '/zh-sx-cms/homePage',
+	'homeUpImg': '/zh-sx-cms/homePage/uploadImg',
+	/*新闻媒体分类*/
+	'newclassify': '/zh-sx-cms/newsCategory',
+	/*新闻媒体*/
+	'news': '/zh-sx-cms/news',
+	'newUpImg': '/zh-sx-cms/news/uploadImg',
+	/*共享资源*/
+	'share': '/zh-sx-cms/sharedResource',
+	'shareUpImg': '/zh-sx-cms/sharedResource/uploadImg'
+	
 }
 
 function urlParse() {
